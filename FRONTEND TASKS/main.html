@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swasthik S Adyanthaya Portfolio</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #f0f2f5;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      z-index: 1000;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .navbar h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .navbar p {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    /* Main Layout */
+    .content {
+      display: flex;
+      flex: 1;
+      margin-top: 100px;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      max-height: calc(100vh - 160px);
+      overflow-y: auto;
+    }
+
+    /* Left Menu */
+    .menu {
+      width: 20%;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .menu.collapsed {
+      width: 5%;
+      padding: 1rem 0.5rem;
+    }
+    
+    .menu.collapsed h2,
+    .menu.collapsed ul {
+      display: none;
+    }
+    
+    .menu h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: #1a2a6c;
+    }
+    
+    .menu button {
+      width: 100%;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      margin-bottom: 1.5rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+    
+    .menu button:hover {
+      transform: translateY(-2px);
+    }
+
+    .menu ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .menu ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    .menu ul li a {
+      color: #1a2a6c;
+      text-decoration: none;
+      display: block;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .menu ul li a:hover {
+      background: #f0f2f5;
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      background: transparent;
+    }
+    
+    .content-card {
+      background: white;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+    
+    .content-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .content-card h2 {
+      color: #1a2a6c;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      border-bottom: 3px solid #fdbb2d;
+      padding-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    .project-card {
+      border-left: 4px solid #b21f1f;
+      padding-left: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .project-card h3 {
+      color: #1a2a6c;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-card p {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .project-card ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-card ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .project-card a {
+      color: #b21f1f;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-weight: bold;
+      transition: color 0.2s;
+    }
+
+    .project-card a:hover {
+      color: #1a2a6c;
+    }
+
+    .skill-tag {
+      display: inline-block;
+      background: #f0f2f5;
+      padding: 0.5rem 1rem;
+      margin: 0.3rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: #1a2a6c;
+      transition: background 0.2s;
+    }
+    
+    .skill-tag:hover {
+      background: #e0e2e5;
+    }
+
+    .certification-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .certification-card {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #fdbb2d;
+    }
+    
+    .language-section {
+      margin-top: 1rem;
+    }
+    
+    .language-section h3 {
+      color: #1a2a6c;
+      margin-bottom: 0.5rem;
+    }
+
+   /* Right Panel */
+    .right-panel {
+      width: 20%;
+      height: 100vh; /* Full viewport height */
+      background: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 4px px rgba(0, 0, 0, 0.1);
+    }
+
+    
+    .right-panel h2 {
+      color: #1a2a6c;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+    
+    .right-panel ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .right-panel ul li {
+      margin-bottom: 1rem;
+    }
+    
+    .right-panel ul li a {
+      color: #b21f1f;
+      text-decoration: none;
+      transition: color 0.2s;
+      display: block;
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+    
+    .right-panel ul li a:hover {
+      background: #f0f2f5;
+      color: #1a2a6c;
+    }
+
+    /* Footer */
+    .footer {
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: auto;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .social-links a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    
+    .social-links a:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: column;
+        max-height: none;
+        overflow-y: visible;
+      }
+      
+      .menu {
+        width: 100%;
+      }
+      
+      .menu.collapsed {
+        width: 100%;
+        padding: 1rem;
+      }
+      
+      .menu.collapsed h2,
+      .menu.collapsed ul {
+        display: block;
+      }
+      
+      .right-panel {
+        width: 100%;
+      }
+      
+      .content-card {
+        margin: 1rem 0;
+      }
+
+      .certification-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Swasthik S Adyanthaya</h1>
+    <p>AI/ML Engineer | Web Developer | Problem Solver</p>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="content">
+    <!-- Left Menu -->
+    <div class="menu" id="left-menu">
+      <button onclick="toggleMenu()">≡</button>
+      <h2>Navigation</h2>
+      <ul>
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <div class="content-card" id="about">
+        <h2>About Me</h2>
+        <p>
+          A highly motivated and enthusiastic College Student working towards B.E in Artificial Intelligence and Machine Learning, seeking a full-time position to apply and expand upon academic knowledge. Eager to contribute fresh perspectives and technical skills in a dynamic, collaborative work environment. Committed to continuous learning and growth while making meaningful contributions to innovative projects in the field.
+        </p>
+        <p>Located in Mangalore, Karnataka, India</p>
+      </div>
+
+      <div class="content-card" id="education">
+        <h2>Education</h2>
+        <div class="project-card">
+          <h3>Bachelor of Engineering</h3>
+          <p>Canara Engineering College, Mangalore</p>
+          <p>Branch: Artificial Intelligence and Machine Learning</p>
+          <p>Expected Graduation: 2025</p>
+          <p>CGPA: 7.37</p>
+        </div>
+        
+        <div class="project-card">
+          <h3>Pre-University College</h3>
+          <p>Canara Pre-University College, Mangalore, Karnataka</p>
+          <p>Completed: 2021</p>
+          <p>Percentage: 81%</p>
+        </div>
+      </div>
+
+      <div class="content-card" id="projects">
+        <h2>Projects</h2>
+        <div class="project-card">
+          <h3>Automated Bus Ticketing System using RFID Technology</h3>
+          <p>June 2024 - July 2024</p>
+          <ul>
+            <li>Developed a comprehensive Cashless Bus Ticketing System using RFID technology, integrating hardware components with a web application</li>
+            <li>The system facilitates seamless, cashless travel for commuters by enabling them to use RFID cards for boarding and deboarding buses</li>
+            <li>This project showcases a blend of hardware interfacing, web development, and secure payment integration</li>
+          </ul>
+          <a href="https://github.com/SaxY0/Bus-Ticketing-System-RFID" target="_blank">View Project →</a>
+        </div>
+        
+        <div class="project-card">
+          <h3>Loan Eligibility Prediction Model</h3>
+          <p>November 2023 - December 2023</p>
+          <ul>
+            <li>Developed a Machine Learning model to predict loan application approvals based on applicant data</li>
+            <li>Implemented extensive data preprocessing, feature engineering, and model selection</li>
+            <li>Demonstrated proficiency in data science, machine learning, and analytical problem-solving</li>
+          </ul>
+          <a href="https://github.com/SaxY0/Loan-Eligibility-Test-Model" target="_blank">View Project →</a>
+        </div>
+      </div>
+
+      <div class="content-card" id="experience">
+        <h2>Experience</h2>
+        <div class="project-card">
+          <h3>Intern at GlowTouch Technologies</h3>
+          <p>Mangalore, Karnataka • November 2023</p>
+          <ul>
+            <li>Developed a loan prediction model to assess the likelihood of loan approval based on applicant data</li>
+            <li>Conducted data analysis using Python to extract actionable insights from large datasets</li>
+            <li>Collaborated with the data science team to improve the accuracy and efficiency of predictive algorithms</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="content-card" id="skills">
+        <h2>Skills</h2>
+        <div>
+          <h3>Technical Skills</h3>
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">React.js</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">MySQL</span>
+        </div>
+        
+        <div class="language-section">
+          <h3>Languages</h3>
+          <span class="skill-tag">English</span>
+          <span class="skill-tag">Hindi</span>
+          <span class="skill-tag">Kannada</span>
+          <span class="skill-tag">Tulu</span>
+        </div>
+        
+        <div class="language-section">
+          <h3>Soft Skills</h3>
+          <span class="skill-tag">Leadership</span>
+          <span class="skill-tag">Problem-Solving</span>
+          <span class="skill-tag">Communication</span>
+          <span class="skill-tag">Team Work</span>
+          <span class="skill-tag">Adaptability</span>
+        </div>
+      </div>
+
+      <div class="content-card" id="certifications">
+        <h2>Certifications</h2>
+        <div class="certification-list">
+          <div class="certification-card">
+            <h3>HTML, CSS and JavaScript for Web Developers</h3>
+          </div>
+          <div class="certification-card">
+            <h3>Internet Of Things (IOT)</h3>
+          </div>
+          <div class="certification-card">
+            <h3>Machine Learning with Python</h3>
+          </div>
+          <div class="certification-card">
+            <h3>Advanced Machine Learning</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+      <h2>Quick Links</h2>
+      <ul>
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+      </ul>
+      
+      <h2>Contact Info</h2>
+      <ul>
+        <li><a href="mailto:swasthikadyanthaya@gmail.com">Email</a></li>
+        <li><a href="https://www.linkedin.com/in/swasthik-adyanthaya-9057b0228" target="_blank">LinkedIn</a></li>
+        <li><a href="https://github.com/SaxY0" target="_blank">GitHub</a></li>
+        <li><a href="tel:+916362275973">+91 6362275973</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>© 2025 Swasthik S Adyanthaya. All Rights Reserved.</p>
+    <div class="social-links">
+      <a href="https://github.com/SaxY0" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/swasthik-adyanthaya-9057b0228" target="_blank">LinkedIn</a>
+      <a href="mailto:swasthikadyanthaya@gmail.com">Email</a>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('left-menu');
+      menu.classList.toggle('collapsed');
+    }
+  
+    // Ensure the inner scroll resets to the top on refresh
+    window.onload = function() {
+      const mainContent = document.querySelector('.main');
+      if (mainContent) {
+        mainContent.scrollTop = 0;  // Reset the scroll position of the inner content
+      }
+    }
+  </script>  
+  <script src="resize.js"></script>
+</body>
+</html>
